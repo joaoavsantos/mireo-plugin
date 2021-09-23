@@ -1,0 +1,35 @@
+{
+  "name": "cordova-plugin-mireo-plugin",
+  "version": "0.0.1",
+  "description": "An Android Cordova plugin to integrate your app with Mireo navigation apps.",
+  "cordova": {
+    "id": "cordova-plugin-mireo.plugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r0b3rtk/mireo-plugin.git"
+  },
+  "keywords": [
+    "Toast",
+    "Notification",
+    "Message",
+    "Alert",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Robert <robert.kuipers@team-resilience.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r0b3rtk/mireo-plugin/issues"
+  },
+  "homepage": "https://github.com/r0b3rtk/mireo-plugin"
+}
