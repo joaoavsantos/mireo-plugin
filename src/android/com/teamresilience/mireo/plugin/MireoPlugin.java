@@ -92,10 +92,12 @@ public class MireoPlugin extends CordovaPlugin {
 //        address.setLonLat(6.276339590549469, 52.58167967539245);
         address.setLonLat(lon, lat);
 //        address.type = String.valueOf(1080);
-
+        
+        
         EasyAPI.AddressResult listener = (status, foundAddress) -> {
             apiResult.set(status);
         };
+        Log.v("Mireo-Plugin", listener.toString());
         mAPI.navigateTo(address, noUI, listener).waitForResult(20_000);
 
         return apiResult.get() == API.RESULT_OK;
