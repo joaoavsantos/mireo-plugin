@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="mireo-plugin" version="0.0.1">
+    <name>MireoPlugin</name>
+
+    <description>An Android Cordova plugin to integrate your app with Mireo navigation apps.</description>
+    <license>MIT</license>
+
+    <keywords>cordova,android,toast,message,alert</keywords>
+    <repo>https://github.com/joaoavsantos/mireo-plugin.git</repo>
+    <issue>https://github.com/joaoavsantos/mireo-plugin/issues</issue>
+  
+    <engines>
+        <engine name="cordova" version=">=3.0.0"/>
+    </engines>
+  
+    <js-module src="www/mireo-plugin.js" name="mireoPlugin">
+        <clobbers target="window.plugins.mireoPlugin" />
+    </js-module>
+
+
+    <platform name="android">
+        <!--
+        <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dafconnectednavigation" />
+            </intent-filter>
+        </config-file>
+        -->
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MireoPlugin">
+                <param name="android-package" value="com.teamresilience.mireo.plugin.MireoPlugin"/>
+                <!-- Initialize plugin on startup, instead upon first invocation -->
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+        <resource-file src="src/android/com/teamresilience/mireo/plugin/sdk/api.jar" target="libs/api.jar" />
+
+        <source-file src="src/android/com/teamresilience/mireo/plugin/MireoPlugin.java" target-dir="src/com/teamresilience/mireo/plugin" />
+    </platform>
+</plugin>
