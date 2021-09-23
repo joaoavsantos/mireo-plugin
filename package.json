@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/r0b3rtk/mireo-plugin.git"
+    "url": "git+https://github.com/joaoavsantos/mireo-plugin.git"
   },
   "keywords": [
     "Toast",
@@ -26,10 +26,10 @@
       "version": ">=3.0.0"
     }
   ],
-  "author": "Robert <robert.kuipers@team-resilience.com>",
+  "author": "João Santos <joao.santos@team-resilience.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/r0b3rtk/mireo-plugin/issues"
+    "url": "https://github.com/joaoavsantos/mireo-plugin/issues"
   },
-  "homepage": "https://github.com/r0b3rtk/mireo-plugin"
+  "homepage": "https://github.com/joaoavsantos/mireo-plugin"
 }
