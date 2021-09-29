@@ -132,7 +132,7 @@ public class MireoPlugin extends CordovaPlugin {
             Double lat = options.optDouble("lat", Double.NaN);
             boolean noUI = options.getBoolean("noUI");
             
-            cordova.getThreadPool().execute(new Runnable() {
+            cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                     boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, noUI);
 
