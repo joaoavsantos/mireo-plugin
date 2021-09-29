@@ -33,7 +33,7 @@ public class MireoPlugin extends CordovaPlugin {
         Log.d(TAG, "Initializing Mireo Cordova plugin");
 
         // create API instance
-        mAPI = new EasyAPI("gm", this, new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"));
+        mAPI = new EasyAPI("gm", cordova.getContext(), new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"));
         mAPI.setScreenFlags(DisplaySurface.screen_is_weblink);
 
 
