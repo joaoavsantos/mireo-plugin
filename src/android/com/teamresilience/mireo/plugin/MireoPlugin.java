@@ -131,11 +131,17 @@ public class MireoPlugin extends CordovaPlugin {
             Double lon = options.optDouble("lon", Double.NaN);
             Double lat = options.optDouble("lat", Double.NaN);
             boolean noUI = options.getBoolean("noUI");
+            
+            cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                    boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, noUI);
 
-            boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, noUI);
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, navigationResult);
+                    callbackContext.sendPluginResult(pluginResult);
+                }
+            });
 
-            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, navigationResult);
-            callbackContext.sendPluginResult(pluginResult);
+
             return true;
         }
         else
