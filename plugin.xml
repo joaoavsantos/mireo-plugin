@@ -37,15 +37,6 @@
                 <param name="onload" value="true" />
             </feature>
         </config-file>
-            
-     <queries>
-        <intent>
-            <data android:scheme="gm" />
-        </intent>
-        <intent>
-            <action android:name="hr.mireo.arthur.api_service" />
-        </intent>
-    </queries>
 
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
