@@ -19,16 +19,19 @@
         <clobbers target="window.plugins.mireoPlugin" />
     </js-module>
         
-    <edit-config file="AndroidManifest.xml" target="/manifest/queries" mode="merge">
-        <intent>
+    
+
+    <platform name="android">
+            <config-file target="AndroidManifest.xml" parent="/manifest">
+                    <queries>
+                    <intent>
             <data android:scheme="gm" />
         </intent>
         <intent>
             <action android:name="hr.mireo.arthur.api_service" />
         </intent>
-    </edit-config>
-
-    <platform name="android">
+                            </queries>
+            </config-file>
         <!--
         <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
             <intent-filter>
