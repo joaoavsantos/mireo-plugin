@@ -17,6 +17,8 @@ import hr.mireo.arthur.api.API;
 import hr.mireo.arthur.api.APIAsyncRequest;
 import hr.mireo.arthur.api.EasyAPI;
 import hr.mireo.arthur.api.GeoAddress;
+import hr.mireo.arthur.api.DisplaySurface;
+
 
 public class MireoPlugin extends CordovaPlugin {
 
