@@ -20,14 +20,12 @@
     </js-module>
         
     <edit-config file="AndroidManifest.xml" target="/manifest/queries" mode="merge">
-         <queries>
         <intent>
             <data android:scheme="gm" />
         </intent>
         <intent>
             <action android:name="hr.mireo.arthur.api_service" />
         </intent>
-    </queries>
     </edit-config>
 
     <platform name="android">
