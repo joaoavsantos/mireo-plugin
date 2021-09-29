@@ -2,6 +2,7 @@ package com.teamresilience.mireo.plugin;
 
 import android.util.Log;
 import android.widget.Toast;
+import android.content.ComponentName;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -32,7 +33,7 @@ public class MireoPlugin extends CordovaPlugin {
         Log.d(TAG, "Initializing Mireo Cordova plugin");
 
         // create API instance
-        mAPI = new EasyAPI(this.getText(R.string.url_scheme).toString(), this, new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"))
+        mAPI = new EasyAPI(this.getText(R.string.url_scheme).toString(), this, new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"));
         mAPI.setScreenFlags(DisplaySurface.screen_is_weblink);
 
 
