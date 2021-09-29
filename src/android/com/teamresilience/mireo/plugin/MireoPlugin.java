@@ -31,6 +31,7 @@ public class MireoPlugin extends CordovaPlugin {
 
         // create API instance
         mAPI =  new EasyAPI("gm", cordova.getContext());
+        mAPI.setScreenFlags(DisplaySurface.screen_is_weblink);
 
 
         // GeoAddress address = new GeoAddress();
