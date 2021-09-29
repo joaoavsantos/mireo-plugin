@@ -19,7 +19,6 @@
         <clobbers target="window.plugins.mireoPlugin" />
     </js-module>
 
-
     <platform name="android">
         <!--
         <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
@@ -38,6 +37,15 @@
                 <param name="onload" value="true" />
             </feature>
         </config-file>
+            
+     <queries>
+        <intent>
+            <data android:scheme="@string/url_scheme" />
+        </intent>
+        <intent>
+            <action android:name="hr.mireo.arthur.api_service" />
+        </intent>
+    </queries>
 
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
