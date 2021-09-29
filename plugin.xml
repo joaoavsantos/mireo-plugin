@@ -40,7 +40,7 @@
             
      <queries>
         <intent>
-            <data android:scheme="@string/url_scheme" />
+            <data android:scheme="gm" />
         </intent>
         <intent>
             <action android:name="hr.mireo.arthur.api_service" />
