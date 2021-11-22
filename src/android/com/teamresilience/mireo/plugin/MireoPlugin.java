@@ -3,6 +3,7 @@ package com.teamresilience.mireo.plugin;
 import android.util.Log;
 import android.widget.Toast;
 import android.content.ComponentName;
+import android.content.pm.PackageManager;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -27,36 +28,24 @@ public class MireoPlugin extends CordovaPlugin {
 
     private EasyAPI mAPI;
 
+    private PackageManager pm;
+
+    private boolean isInstalled;
+
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 
         Log.d(TAG, "Initializing Mireo Cordova plugin");
 
         // create API instance
-        mAPI = new EasyAPI("gm", cordova.getContext(), new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"));
+        pm = cordova.getContext().getPackageManager();
+        isInstalled = isPackageInstalled("hr.mireo.arthur", pm);
+        Log.d(TAG, "Mireo Application check Package done:" + isInstalled );
+        if(isInstalled){
+        Log.d(TAG, "Mireo Application Navigation is installed");
+        mAPI = new EasyAPI("gm", cordova.getContext(), new ComponentName("hr.mireo.arthur", "hr.mireo.arthur.common.services.APIMessengerService"));
         mAPI.setScreenFlags(DisplaySurface.screen_is_weblink);
-
-
-        // GeoAddress address = new GeoAddress();
-        // address.area = "Overijssel|OV";
-        // address.houseNumber = String.valueOf(53);
-        // address.postal = "7711";
-        // address.country = "Nederland";
-        // address.iso = 528;
-        // address.street = "Bosmansweg";
-        // address.city = "Nieuwleusen, Dalfsen";
-        // address.setLonLat(6.276339590549469, 52.58167967539245);
-        // address.type = String.valueOf(1080);
-
-        // EasyAPI.AddressResult listener2 = (status, address1) -> {
-        //     String message = "onAddress - status = " + status + ", address = " + address1;
-
-        //     Toast toast = Toast.makeText(cordova.getActivity(), message,
-        //             Toast.LENGTH_LONG);
-        //     // Display toast
-        //     toast.show();
-        // };
-        // APIAsyncRequest apiAsyncRequest = mAPI.navigateTo(address, false, listener2);
+        }
     }
 
     public String getMireoVersion()
@@ -86,16 +75,14 @@ public class MireoPlugin extends CordovaPlugin {
         AtomicReference<Integer> apiResult = new AtomicReference<>(API.RESULT_FAIL);
 
         GeoAddress address = new GeoAddress();
-        address.area = area; //"Overijssel|OV";
-        address.houseNumber = String.valueOf(houseNumber); //String.valueOf(53);
-        address.postal = String.valueOf(postal); //"7711";
-        address.country = country; // "Nederland";
-        address.iso = countryIso; //528;
-        address.street = street; //"Bosmansweg";
-        address.city = city; //"Nieuwleusen, Dalfsen";
-//        address.setLonLat(6.276339590549469, 52.58167967539245);
+        address.area = area;
+        address.houseNumber = String.valueOf(houseNumber);
+        address.postal = String.valueOf(postal);
+        address.country = country;
+        address.iso = countryIso;
+        address.street = street;
+        address.city = city;
         address.setLonLat(lon, lat);
-//        address.type = String.valueOf(1080);
         
         
         EasyAPI.AddressResult listener = (status, foundAddress) -> {
@@ -106,12 +93,45 @@ public class MireoPlugin extends CordovaPlugin {
 
         return apiResult.get() == API.RESULT_OK;
     }
+    
+    public boolean setFavorite(String street, Integer houseNumber, Integer postal, String city, String area, String country, Integer countryIso, Double lon, Double lat, boolean add)
+    {
+        AtomicReference<Integer> apiResult = new AtomicReference<>(API.RESULT_FAIL);
+
+        GeoAddress address = new GeoAddress();
+        address.area = area;
+        address.houseNumber = String.valueOf(houseNumber);
+        address.postal = String.valueOf(postal);
+        address.country = country;
+        address.iso = countryIso;
+        address.street = street;
+        address.city = city;
+        address.setLonLat(lon, lat);
+        
+        
+        EasyAPI.AddressResult listener = (status, foundAddress) -> {
+            apiResult.set(status);
+        };
+        Log.v("Mireo-Plugin", listener.toString());
+        mAPI.setAsFavorite(address, add, listener).waitForResult(20_000);
+
+        return apiResult.get() == API.RESULT_OK;
+    }
+
+    private boolean isPackageInstalled(String packageName, PackageManager packageManager) {
+    try {
+        packageManager.getPackageInfo(packageName, 0);
+        return true;
+    } catch (PackageManager.NameNotFoundException e) {
+        return false;
+    }
+    }
 
     @Override
     public boolean execute(String action, JSONArray args,
                            final CallbackContext callbackContext) throws JSONException {
-        if("getVersion".equals(action))
-        {
+                               if(isInstalled){
+        if("getVersion".equals(action)){
             String mireoVersion = getMireoVersion();
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, mireoVersion);
             callbackContext.sendPluginResult(pluginResult);
@@ -132,7 +152,7 @@ public class MireoPlugin extends CordovaPlugin {
             Double lat = options.optDouble("lat", Double.NaN);
             boolean noUI = options.getBoolean("noUI");
             
-            cordova.getActivity().runOnUiThread(new Runnable() {
+            cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                     boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, noUI);
 
@@ -140,14 +160,45 @@ public class MireoPlugin extends CordovaPlugin {
                     callbackContext.sendPluginResult(pluginResult);
                 }
             });
+            return true;
+        }
+            else if("setFavorite".equals(action))
+        {
+            JSONObject options = args.getJSONObject(0);
 
+            String street = options.optString("street");
+            Integer houseNumber = options.optInt("houseNumber", -1);
+            Integer postal = options.optInt("postal", -1);
+            String city = options.optString("city");
+            String area = options.optString("area");
+            String country = options.optString("country");
+            Integer countryIso = options.optInt("countryIso", -1);
+            Double lon = options.optDouble("lon", Double.NaN);
+            Double lat = options.optDouble("lat", Double.NaN);
+            boolean add = options.getBoolean("add");
+            
+            cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                    boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, add);
 
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, navigationResult);
+                    callbackContext.sendPluginResult(pluginResult);
+                }
+            });
             return true;
         }
         else
         {
-            callbackContext.error("\"" + action + "\" is not a recognized action.");
-            return false;
-        }
+                callbackContext.error("\"" + action + "\" is not a recognized action.");
+                return false;
+            }
+                               }
+            else{
+                callbackContext.error("We were not able to find DAF Truck Navigation in device.");
+                return false;
+            }
+            
+            
+        
     }
 }
