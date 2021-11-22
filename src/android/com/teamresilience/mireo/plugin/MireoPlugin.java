@@ -179,7 +179,7 @@ public class MireoPlugin extends CordovaPlugin {
             
             cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                    boolean navigationResult = navigateTo(street, houseNumber, postal, city, area, country, countryIso, lon, lat, add);
+                    boolean navigationResult = setFavorite(street, houseNumber, postal, city, area, country, countryIso, lon, lat, add);
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, navigationResult);
                     callbackContext.sendPluginResult(pluginResult);
