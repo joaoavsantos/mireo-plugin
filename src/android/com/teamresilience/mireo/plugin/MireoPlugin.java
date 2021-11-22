@@ -109,7 +109,7 @@ public class MireoPlugin extends CordovaPlugin {
         address.setLonLat(lon, lat);
         
         
-        EasyAPI.AddressResult listener = (status, foundAddress) -> {
+        EasyAPI.Result listener = (status) -> {
             apiResult.set(status);
         };
         Log.v("Mireo-Plugin", listener.toString());
