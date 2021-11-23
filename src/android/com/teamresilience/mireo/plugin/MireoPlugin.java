@@ -39,11 +39,11 @@ public class MireoPlugin extends CordovaPlugin {
 
         // create API instance
         pm = cordova.getContext().getPackageManager();
-        isInstalled = isPackageInstalled("hr.mireo.arthur", pm);
+        isInstalled = isPackageInstalled("com.daf.smartphone", pm);
         Log.d(TAG, "Mireo Application check Package done:" + isInstalled );
         if(isInstalled){
         Log.d(TAG, "Mireo Application Navigation is installed");
-        mAPI = new EasyAPI("gm", cordova.getContext(), new ComponentName("hr.mireo.arthur", "hr.mireo.arthur.common.services.APIMessengerService"));
+        mAPI = new EasyAPI("gm", cordova.getContext(), new ComponentName("com.daf.smartphone", "hr.mireo.arthur.common.services.APIMessengerService"));
         mAPI.setScreenFlags(DisplaySurface.screen_is_weblink);
         }
     }
